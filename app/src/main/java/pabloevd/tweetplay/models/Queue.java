@@ -1,4 +1,4 @@
-package Models;
+package pabloevd.tweetplay.models;
 
 import java.util.ArrayList;
 

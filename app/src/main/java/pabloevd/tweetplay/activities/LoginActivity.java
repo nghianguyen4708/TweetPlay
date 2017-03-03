@@ -1,42 +1,43 @@
+/*The spotify logic needs be moved out of here, and put in its own class. This should actity will
+ Will show the main screen with playlists, and a now playing drawer button that can be swiped up
+ to display the now playing screen.
+*/
+
+package pabloevd.tweetplay.activities;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.spotify.sdk.android.authentication.AuthenticationClient;
+import com.spotify.sdk.android.authentication.AuthenticationRequest;
+import com.spotify.sdk.android.authentication.AuthenticationResponse;
+import com.spotify.sdk.android.player.Config;
+import com.spotify.sdk.android.player.ConnectionStateCallback;
+import com.spotify.sdk.android.player.Error;
+import com.spotify.sdk.android.player.Player;
+import com.spotify.sdk.android.player.PlayerEvent;
+import com.spotify.sdk.android.player.Spotify;
+import com.spotify.sdk.android.player.SpotifyPlayer;
+import pabloevd.tweetplay.R;
+import android.widget.Button;
 
 
-package pabloevd.tweetplay;
-
-        import android.app.Activity;
-        import android.content.Intent;
-        import android.net.Uri;
-        import android.os.Bundle;
-        import android.util.Log;
-        import android.widget.ArrayAdapter;
-        import android.widget.ListView;
-        import android.widget.AdapterView;
-        import android.widget.TextView;
-
-
-        import com.google.android.gms.appindexing.Action;
-        import com.google.android.gms.appindexing.AppIndex;
-        import com.google.android.gms.appindexing.Thing;
-        import com.google.android.gms.common.api.GoogleApiClient;
-        import com.spotify.sdk.android.authentication.AuthenticationClient;
-        import com.spotify.sdk.android.authentication.AuthenticationRequest;
-        import com.spotify.sdk.android.authentication.AuthenticationResponse;
-        import com.spotify.sdk.android.player.Config;
-        import com.spotify.sdk.android.player.ConnectionStateCallback;
-        import com.spotify.sdk.android.player.Error;
-        import com.spotify.sdk.android.player.Player;
-        import com.spotify.sdk.android.player.PlayerEvent;
-        import com.spotify.sdk.android.player.Spotify;
-        import com.spotify.sdk.android.player.SpotifyPlayer;
-        import java.util.ArrayList;
-
-
-public class MainActivity extends Activity implements
+public class LoginActivity extends Activity implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback{
     //TODO: Create list of playlist objects
     ListView playLList;
     String items;
     private static final String CLIENT_ID = "42e4cf334d044ee3b93e7dcf12a83b3f";
     private static final String REDIRECT_URI = "http://localhost:8888/callback";
+    private Button sLoginButton;
 
     // Request code that will be used to verify if the result comes from correct activity
     // Can be any integer
@@ -52,43 +53,22 @@ public class MainActivity extends Activity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        populatePlayListView();
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.login_spotify);
+        sLoginButton = (Button) findViewById(R.id.sLoginButton);
+//        if(sLoginButton.hasOnClickListeners()) {
+            AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
+                    AuthenticationResponse.Type.TOKEN,
+                    REDIRECT_URI);
+            builder.setScopes(new String[]{"user-read-private", "streaming"});
+            AuthenticationRequest request = builder.build();
 
-        String[] myItems = {"Party1", "Party2", "Party3", "Part4"}; // Build Adapter
-        ArrayAdapter<String> playListAdapter = new ArrayAdapter<String>(this, R.layout.the_playlist, myItems);
-        ListView playlists = (ListView)findViewById(R.id.playLList);
-        playlists.setAdapter(playListAdapter);
-
-
-//        setContentView(R.layout.activity_main);
-
-        AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
-                AuthenticationResponse.Type.TOKEN,
-                REDIRECT_URI);
-        builder.setScopes(new String[]{"user-read-private", "streaming"});
-        AuthenticationRequest request = builder.build();
-
-        AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+            AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
+            // ATTENTION: This was auto-generated to implement the App Indexing API.
+            // See https://g.co/AppIndexing/AndroidStudio for more information.
+            client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+//        }
     }
 
-    public void populatePlayListView(){
-        //Create list of items
-
-        //Build adapter
-
-        //Set up list view
-
-        String[] myItems = {"Party1", "Party2", "Party3", "Part4"}; // Build Adapter
-        ArrayAdapter<String> playListAdapter = new ArrayAdapter<String>(this, R.layout.activity_main, myItems);
-        ListView playlists = (ListView)findViewById(R.id.playLList);
-        playlists.setAdapter(playListAdapter);
-
-
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -103,8 +83,8 @@ public class MainActivity extends Activity implements
                     @Override
                     public void onInitialized(SpotifyPlayer spotifyPlayer) {
                         mPlayer = spotifyPlayer;
-                        mPlayer.addConnectionStateCallback(MainActivity.this);
-                        mPlayer.addNotificationCallback(MainActivity.this);
+                        mPlayer.addConnectionStateCallback(LoginActivity.this);
+                        mPlayer.addNotificationCallback(LoginActivity.this);
                     }
 
                     @Override
@@ -146,8 +126,9 @@ public class MainActivity extends Activity implements
     @Override
     public void onLoggedIn() {
         Log.d("MainActivity", "User logged in");
-
+        MainActivity.signedIn = 1;
         mPlayer.playUri(null, "spotify:track:3bnVBN67NBEzedqQuWrpP4", 0, 0);
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
     }
 
     @Override

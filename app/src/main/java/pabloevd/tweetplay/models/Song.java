@@ -1,4 +1,4 @@
-package Models;
+package pabloevd.tweetplay.models;
 
 /**
  * Created by Allen on 3/1/2017.
