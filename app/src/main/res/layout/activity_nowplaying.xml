@@ -11,7 +11,9 @@
         android:id="@+id/fragment"
         android:layout_width="match_parent"
         android:layout_height="350dp"
-        android:layout_weight="0.36" />
+        android:layout_weight="0.36" >
+
+    </FrameLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -54,7 +56,7 @@
         android:layout_height="120dp">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/playPrevButton"
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:layout_centerVertical="true"
@@ -67,7 +69,7 @@
             app:srcCompat="@drawable/ic_skip_previous_white_24dp" />
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/playNextButton"
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:layout_centerVertical="true"
@@ -80,7 +82,7 @@
             app:srcCompat="@drawable/ic_skip_next_white_24dp" />
 
         <ImageButton
-            android:id="@+id/imageButton3"
+            android:id="@+id/repeatButton"
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:layout_alignParentLeft="true"
@@ -93,13 +95,12 @@
             app:srcCompat="@drawable/ic_repeat_white_24dp" />
 
         <ImageButton
-            android:id="@+id/imageButton4"
+            android:id="@+id/shuffleButton"
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="16dp"
+            android:layout_alignTop="@+id/playNextButton"
+            android:layout_marginEnd="15dp"
             android:layout_marginRight="16dp"
             android:padding="22dp"
             android:scaleType="fitCenter"
