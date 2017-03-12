@@ -8,14 +8,25 @@ package pabloevd.tweetplay.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.spotify.sdk.android.player.Config;
+import com.spotify.sdk.android.player.ConnectionStateCallback;
+import com.spotify.sdk.android.player.Error;
+import com.spotify.sdk.android.player.Player;
+import com.spotify.sdk.android.player.PlayerEvent;
+import com.spotify.sdk.android.player.Spotify;
+import com.spotify.sdk.android.player.SpotifyPlayer;
+
 import pabloevd.tweetplay.R;
+import pabloevd.tweetplay.TweetIt;
 import pabloevd.tweetplay.fragments.QueueFragment;
 import pabloevd.tweetplay.fragments.SongFragment;
 
@@ -24,21 +35,48 @@ import pabloevd.tweetplay.fragments.SongFragment;
  * and to display the queue list
  */
 
-public class NowPlayingActivity extends AppCompatActivity implements View.OnClickListener, SongFragment.OnFragmentInteractionListener, QueueFragment.OnFragmentInteractionListener {
-    private ImageButton playButton;
+public class NowPlayingActivity extends AppCompatActivity implements View.OnClickListener,
+        SongFragment.OnFragmentInteractionListener, QueueFragment.OnFragmentInteractionListener,//{
+        SpotifyPlayer.NotificationCallback, ConnectionStateCallback {
+    private FloatingActionButton playButton;
     private ImageButton nextButton;
     private ImageButton prevButton;
     private ImageButton shuffleButton;
     private ImageButton changeFragButton;
+    private Config playerConfig;
     private int viewNum;
+    private  int musicState =0;
+    private Player mPlayer;
+    TweetIt tweetit;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        tweetit = (TweetIt) getApplicationContext();
         viewNum =1;
         setContentView(R.layout.activity_nowplaying);
         final Fragment fragment = new SongFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+        mPlayer = createPlayerInstance();
+        playButton = (FloatingActionButton) findViewById(R.id.playButton);
+        playButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                System.out.println("next buton was pressed");
+                 if(mPlayer!= null)
+                    System.out.print(mPlayer);
+                if(musicState == 0) {
+                    mPlayer.pause(null);
+                    musicState = 1;
+                }
+                else {
+                    mPlayer.resume(null);
+                    musicState = 0;
+                }
+
+            }
+        });
 
         changeFragButton = (ImageButton) findViewById(R.id.repeatButton);
         changeFragButton.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +101,27 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
     }
 
 
+    public Player createPlayerInstance(){
 
+        Config playerConfig = new Config(NowPlayingActivity.this, tweetit.token, tweetit.CLIENT_ID);
+        Spotify.getPlayer(playerConfig, this, new SpotifyPlayer.InitializationObserver() {
+            @Override
+            public void onInitialized(SpotifyPlayer spotifyPlayer) {
+                mPlayer = spotifyPlayer;
+                mPlayer.addConnectionStateCallback(NowPlayingActivity.this);
+                mPlayer.addNotificationCallback(NowPlayingActivity.this);
+
+
+                //mPlayer.playUri(null,"https://open.spotify.com/track/72Y5nO5FCZtq0w7T5JGbys",0,0);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                Log.e("NowPLaying", "Could not initialize player: " + throwable.getMessage());
+            }
+        });
+        return mPlayer;
+    }
 
 
     @Override
@@ -86,6 +144,51 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+//
+
+
+
+
+
+      @Override
+    public void onLoggedIn() {
+
+    }
+
+    @Override
+    public void onLoggedOut() {
+
+    }
+
+    @Override
+    public void onLoginFailed(Error error) {
+
+    }
+
+    @Override
+    public void onTemporaryError() {
+
+    }
+
+    @Override
+    public void onConnectionMessage(String s) {
+
+    }
+
+    @Override
+    public void onPlaybackEvent(PlayerEvent playerEvent) {
+        Log.d("Now Playing", "Playback event received: " + playerEvent.name());
+        switch (playerEvent) {
+            // Handle event type as necessary
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onPlaybackError(Error error) {
 
     }
 }

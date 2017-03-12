@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -27,6 +26,7 @@ import com.spotify.sdk.android.player.PlayerEvent;
 import com.spotify.sdk.android.player.Spotify;
 import com.spotify.sdk.android.player.SpotifyPlayer;
 import pabloevd.tweetplay.R;
+import pabloevd.tweetplay.TweetIt;
 import android.widget.Button;
 
 
@@ -35,24 +35,19 @@ public class LoginActivity extends Activity implements
     //TODO: Create list of playlist objects
     ListView playLList;
     String items;
+    TweetIt tweetit;
+
     private static final String CLIENT_ID = "42e4cf334d044ee3b93e7dcf12a83b3f";
     private static final String REDIRECT_URI = "http://localhost:8888/callback";
     private Button sLoginButton;
-
-    // Request code that will be used to verify if the result comes from correct activity
-    // Can be any integer
     private static final int REQUEST_CODE = 1337;
-
     private Player mPlayer;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
     private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        tweetit = (TweetIt) getApplicationContext();
         setContentView(R.layout.login_spotify);
         sLoginButton = (Button) findViewById(R.id.sLoginButton);
 //        if(sLoginButton.hasOnClickListeners()) {
@@ -61,10 +56,7 @@ public class LoginActivity extends Activity implements
                     REDIRECT_URI);
             builder.setScopes(new String[]{"user-read-private", "streaming"});
             AuthenticationRequest request = builder.build();
-
             AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
-            // ATTENTION: This was auto-generated to implement the App Indexing API.
-            // See https://g.co/AppIndexing/AndroidStudio for more information.
             client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 //        }
     }
@@ -78,6 +70,7 @@ public class LoginActivity extends Activity implements
         if (requestCode == REQUEST_CODE) {
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
+                tweetit.token = response.getAccessToken();
                 Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
                 Spotify.getPlayer(playerConfig, this, new SpotifyPlayer.InitializationObserver() {
                     @Override
@@ -128,7 +121,7 @@ public class LoginActivity extends Activity implements
         Log.d("MainActivity", "User logged in");
         MainActivity.signedIn = 1;
         mPlayer.playUri(null, "spotify:track:3bnVBN67NBEzedqQuWrpP4", 0, 0);
-        mPlayer.queue(null, "spotify:track:72Y5nO5FCZtq0w7T5JGbys");
+       // mPlayer.queue(null, "spotify:track:72Y5nO5FCZtq0w7T5JGbys");
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
     }
 
@@ -187,4 +180,7 @@ public class LoginActivity extends Activity implements
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
     }
+
+
+
 }

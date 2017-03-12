@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import pabloevd.tweetplay.R;
+import pabloevd.tweetplay.TweetIt;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton playButton;
     ListView playLList;
     String items;
-
+    TweetIt tweetit;
     public static int signedIn = 0;
 
     // Request code that will be used to verify if the result comes from correct activity
@@ -32,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        populatePlayListView();
+        tweetit = (TweetIt) getApplicationContext();
+        //Call login activity if app was just opened.
         if(signedIn == 0) {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
@@ -43,12 +45,8 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> playListAdapter = new ArrayAdapter<String>(this, R.layout.the_playlist, myItems);
         ListView playlists = (ListView)findViewById(R.id.playLList);
         playlists.setAdapter(playListAdapter);
-//        setContentView(R.layout.activity_main);
-
         playButton = (ImageButton) findViewById(R.id.playButton);
         nowPlayingButton = (ImageButton) findViewById(R.id.nowPlayingButton);
-
-
         nowPlayingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,11 +65,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void populatePlayListView(){
         //Create list of items
-
         //Build adapter
-
         //Set up list view
-
         String[] myItems = {"Party1", "Party2", "Party3", "Part4"}; // Build Adapter
         ArrayAdapter<String> playListAdapter = new ArrayAdapter<String>(this, R.layout.activity_main, myItems);
         ListView playlists = (ListView)findViewById(R.id.playLList);
