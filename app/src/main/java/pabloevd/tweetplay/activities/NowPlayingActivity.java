@@ -60,6 +60,17 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
         mPlayer = createPlayerInstance();
         playButton = (FloatingActionButton) findViewById(R.id.playButton);
+        nextButton = (ImageButton) findViewById(R.id.playNextButton);
+        changeFragButton = (ImageButton) findViewById(R.id.repeatButton);
+
+        nextButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public  void onClick(View view){
+                mPlayer.queue(null,"spotify:track:6i0V12jOa3mr6uu4WYhUBr");
+                mPlayer.skipToNext(null);
+            }
+
+        });
         playButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -78,7 +89,6 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
             }
         });
 
-        changeFragButton = (ImageButton) findViewById(R.id.repeatButton);
         changeFragButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
