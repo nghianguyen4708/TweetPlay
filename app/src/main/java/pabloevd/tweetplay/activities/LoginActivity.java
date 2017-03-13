@@ -32,6 +32,8 @@ import android.widget.Button;
 
 public class LoginActivity extends Activity implements
         SpotifyPlayer.NotificationCallback, ConnectionStateCallback{
+
+
     //TODO: Create list of playlist objects
     ListView playLList;
     String items;
