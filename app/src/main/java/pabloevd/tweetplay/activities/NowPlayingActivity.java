@@ -36,8 +36,8 @@ import pabloevd.tweetplay.fragments.SongFragment;
  */
 
 public class NowPlayingActivity extends AppCompatActivity implements View.OnClickListener,
-        SongFragment.OnFragmentInteractionListener, QueueFragment.OnFragmentInteractionListener,//{
-        SpotifyPlayer.NotificationCallback, ConnectionStateCallback {
+        SongFragment.OnFragmentInteractionListener, QueueFragment.OnFragmentInteractionListener{
+        //,SpotifyPlayer.NotificationCallback, ConnectionStateCallback {
     private FloatingActionButton playButton;
     private ImageButton nextButton;
     private ImageButton prevButton;
@@ -45,7 +45,7 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
     private ImageButton changeFragButton;
     private Config playerConfig;
     private int viewNum;
-    private  int musicState =0;
+    private  int musicState =-1;
     private Player mPlayer;
     TweetIt tweetit;
 
@@ -58,7 +58,7 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_nowplaying);
         final Fragment fragment = new SongFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
-        mPlayer = createPlayerInstance();
+       // mPlayer = createPlayerInstance();
         playButton = (FloatingActionButton) findViewById(R.id.playButton);
         nextButton = (ImageButton) findViewById(R.id.playNextButton);
         changeFragButton = (ImageButton) findViewById(R.id.repeatButton);
@@ -66,23 +66,35 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
         nextButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public  void onClick(View view){
-                mPlayer.queue(null,"spotify:track:6i0V12jOa3mr6uu4WYhUBr");
-                mPlayer.skipToNext(null);
+                //tweetit.mPlayer.pause(null);
+                tweetit.mPlayer.queue(null,"spotify:track:6i0V12jOa3mr6uu4WYhUBr");
+                tweetit.mPlayer.queue(null,"spotify:track:3bnVBN67NBEzedqQuWrpP4");
+                tweetit.mPlayer.queue(null, "spotify:track:72Y5nO5FCZtq0w7T5JGbys");
+
+                tweetit.mPlayer.skipToNext(null);
+                //tweetit.mPlayer.resume(null);
             }
 
         });
         playButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                System.out.println("next buton was pressed");
-                 if(mPlayer!= null)
+                System.out.println("PLAY buton was pressed");
+                 if(tweetit.mPlayer!= null)
                     System.out.print(mPlayer);
                 if(musicState == 0) {
-                    mPlayer.pause(null);
+                   tweetit.mPlayer.pause(null);
                     musicState = 1;
                 }
-                else {
-                    mPlayer.resume(null);
+                else if(musicState ==1) {
+                    tweetit.mPlayer.resume(null);
+                    musicState = 0;
+                }
+
+                if(musicState == -1) {
+                    tweetit.mPlayer.playUri(null, "spotify:track:6i0V12jOa3mr6uu4WYhUBr", 0,0);
+                    tweetit.mPlayer.queue(null, "spotify:track:72Y5nO5FCZtq0w7T5JGbys");
+
                     musicState = 0;
                 }
 
@@ -111,27 +123,27 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
     }
 
 
-    public Player createPlayerInstance(){
-
-        Config playerConfig = new Config(NowPlayingActivity.this, tweetit.token, tweetit.CLIENT_ID);
-        Spotify.getPlayer(playerConfig, this, new SpotifyPlayer.InitializationObserver() {
-            @Override
-            public void onInitialized(SpotifyPlayer spotifyPlayer) {
-                mPlayer = spotifyPlayer;
-                mPlayer.addConnectionStateCallback(NowPlayingActivity.this);
-                mPlayer.addNotificationCallback(NowPlayingActivity.this);
-
-
-                //mPlayer.playUri(null,"https://open.spotify.com/track/72Y5nO5FCZtq0w7T5JGbys",0,0);
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                Log.e("NowPLaying", "Could not initialize player: " + throwable.getMessage());
-            }
-        });
-        return mPlayer;
-    }
+//    public Player createPlayerInstance(){
+//
+//        Config playerConfig = new Config(NowPlayingActivity.this, tweetit.token, tweetit.CLIENT_ID);
+//        Spotify.getPlayer(playerConfig, this, new SpotifyPlayer.InitializationObserver() {
+//            @Override
+//            public void onInitialized(SpotifyPlayer spotifyPlayer) {
+//                mPlayer = spotifyPlayer;
+//                mPlayer.addConnectionStateCallback(NowPlayingActivity.this);
+//                mPlayer.addNotificationCallback(NowPlayingActivity.this);
+//
+//
+//                //mPlayer.playUri(null,"https://open.spotify.com/track/72Y5nO5FCZtq0w7T5JGbys",0,0);
+//            }
+//
+//            @Override
+//            public void onError(Throwable throwable) {
+//                Log.e("NowPLaying", "Could not initialize player: " + throwable.getMessage());
+//            }
+//        });
+//        return mPlayer;
+//    }
 
 
     @Override
@@ -162,45 +174,46 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
 
 
 
-      @Override
-    public void onLoggedIn() {
-
-    }
-
-    @Override
-    public void onLoggedOut() {
-
-    }
-
-    @Override
-    public void onLoginFailed(Error error) {
-
-    }
-
-    @Override
-    public void onTemporaryError() {
-
-    }
-
-    @Override
-    public void onConnectionMessage(String s) {
-
-    }
-
-    @Override
-    public void onPlaybackEvent(PlayerEvent playerEvent) {
-        Log.d("Now Playing", "Playback event received: " + playerEvent.name());
-        switch (playerEvent) {
-            // Handle event type as necessary
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void onPlaybackError(Error error) {
-
-    }
+//      @Override
+//    public void onLoggedIn() {
+//
+//    }
+//
+//    @Override
+//    public void onLoggedOut() {
+//
+//    }
+//
+//    @Override
+//    public void onLoginFailed(Error error) {
+//
+//    }
+//
+//    @Override
+//    public void onTemporaryError() {
+//
+//    }
+//
+//    @Override
+//    public void onConnectionMessage(String s) {
+//
+//    }
+//
+//    @Override
+//    public void onPlaybackEvent(PlayerEvent playerEvent) {
+//        Log.d("Now Playing", "Playback event received: " + playerEvent.name());
+//        switch (playerEvent) {
+//            // Handle event type as necessary
+//            default:
+//                break;
+//        }
+//    }
+//
+//    @Override
+//    public void onPlaybackError(Error error) {
+//        Log.d("Now Playing", "Playback error received:  " + error);
+//
+//    }
 }
 
 

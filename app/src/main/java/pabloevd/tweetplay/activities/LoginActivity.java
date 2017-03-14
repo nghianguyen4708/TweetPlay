@@ -78,6 +78,7 @@ public class LoginActivity extends Activity implements
                         mPlayer = spotifyPlayer;
                         mPlayer.addConnectionStateCallback(LoginActivity.this);
                         mPlayer.addNotificationCallback(LoginActivity.this);
+                        tweetit.mPlayer = mPlayer;
                     }
 
                     @Override
@@ -101,6 +102,7 @@ public class LoginActivity extends Activity implements
         Log.d("MainActivity", "Playback event received: " + playerEvent.name());
         switch (playerEvent) {
             // Handle event type as necessary
+
             default:
                 break;
         }
@@ -120,8 +122,10 @@ public class LoginActivity extends Activity implements
     public void onLoggedIn() {
         Log.d("MainActivity", "User logged in");
         MainActivity.signedIn = 1;
-        mPlayer.playUri(null, "spotify:track:3bnVBN67NBEzedqQuWrpP4", 0, 0);
+        //mPlayer.playUri(null, "spotify:track:3bnVBN67NBEzedqQuWrpP4", 0, 0);
        // mPlayer.queue(null, "spotify:track:72Y5nO5FCZtq0w7T5JGbys");
+       // mPlayer.queue(null,"spotify:track:6i0V12jOa3mr6uu4WYhUBr");
+
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
     }
 
