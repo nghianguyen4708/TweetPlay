@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1064893476878",
+    "firebase_url": "https://tweetit-c6ccb.firebaseio.com",
+    "project_id": "tweetit-c6ccb",
+    "storage_bucket": "tweetit-c6ccb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1064893476878:android:28d470a4804a2f2f",
+        "android_client_info": {
+          "package_name": "pabloevd.tweetplay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1064893476878-tosof9q6fgvothu9vriapcad4t2k3qgr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pabloevd.tweetplay",
+            "certificate_hash": "c0a1442d5a72c474d4cefaf616898dabe180ac75"
+          }
+        },
+        {
+          "client_id": "1064893476878-7sj1pp80drb6cgbqb80si1g55sq2n6j5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwcTNIOeaAHqddjBxfE2BDIrukl1vRaxg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1064893476878-7sj1pp80drb6cgbqb80si1g55sq2n6j5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
