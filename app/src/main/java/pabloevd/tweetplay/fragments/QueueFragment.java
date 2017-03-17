@@ -7,6 +7,27 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+
+
 
 import pabloevd.tweetplay.R;
 
@@ -24,7 +45,8 @@ public class QueueFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    public String[] songList ;
+    public String queuename;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -75,6 +97,68 @@ public class QueueFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
+
+/**
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
+        // Queue to display
+       // Queue queue = (Queue) this.getItem(position);
+        // Check box to display which queue is selected
+        // The child views in each row.
+        //songList Songlist
+        //queueList queueList; <
+        private CheckBox checkBox;
+        private TextView textView;
+
+        // Create new songlist view
+        if (convertView == null)
+        {
+            convertView = inflater.inflate(R.layout.list, null);
+
+            // Find the child views.
+            //ListView playlists = (ListView)findViewById(R.id.playLList);
+            checkBox = (CheckBox) convertView.findViewById(R.id.CheckBox);
+
+            convertView.setTag(new QueueViewHolder(textView, checkBox));
+
+            // If CheckBox is toggled, update the planet it is tagged with.
+            checkBox.setOnClickListener(new View.OnClickListener()
+            {
+                public void onClick(View v)
+                {
+                    CheckBox cb = (CheckBox) v;
+                    Queue queue = (Queue) cb.getTag();
+                    queue.setChecked(cb.isChecked());
+                }
+            });
+        }
+        // Reuse existing row view
+        else
+        {
+            // Because we use a ViewHolder, we avoid having to call
+            // findViewById().
+            QueueViewHolder viewHolder = (PlanetViewHolder) convertView
+                    .getTag();
+            checkBox = viewHolder.getCheckBox();
+            textView = viewHolder.getTextView();
+        }
+
+        // Tag the CheckBox with the Planet it is displaying, so that we can
+        // access the planet in onClick() when the CheckBox is toggled.
+        checkBox.setTag(queue);
+
+        // Display planet data
+        checkBox.setChecked(queue.isChecked());
+        textView.setText(queue.getName());
+
+        return convertView;
+    }
+
+}
+
+
+
+***/
 
     @Override
     public void onAttach(Context context) {
