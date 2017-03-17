@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_weight="0.36"
-            tools:layout="@layout/fragment_song" />
+            tools:layout="@layout/activity_nowplaying" />
 
 
 
