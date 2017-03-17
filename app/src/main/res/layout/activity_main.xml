@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context="pabloevd.tweetplay.activities.MainActivity">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,6 +21,8 @@
             android:layout_height="530dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="30dp"/>
             android:layout_weight="0.81" />
 
         <RelativeLayout
@@ -62,18 +65,11 @@
                 android:layout_alignTop="@+id/nowPlayingButton"
                 android:layout_centerHorizontal="true"
                 android:text="TextView" />
+
         </RelativeLayout>
 
     </LinearLayout><![CDATA[
-
-
-
-    :layout_height="match_parent" />
-
-
-
-
-]]>
+    :layout_height="match_parent" />]]>
 </android.support.v4.widget.DrawerLayout>
 
 

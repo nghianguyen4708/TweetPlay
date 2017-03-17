@@ -102,9 +102,18 @@ public class LoginActivity extends Activity implements
     @Override
     public void onPlaybackEvent(PlayerEvent playerEvent) {
         Log.d("MainActivity", "Playback event received: " + playerEvent.name());
+        if(playerEvent.name().equals("kSpPlaybackNotifyTrackChanged")){
+            System.out.println("Here we can try to emluate a queue");
+        }
+        if(playerEvent.name().equals("kSpPlaybackNotifyPause")){
+            NowPlayingActivity.musicState = 1;
+        }
+        if(playerEvent.name().equals("kSpPlaybackNotifyPlay")){
+            NowPlayingActivity.musicState = 1;
+        }
+
         switch (playerEvent) {
             // Handle event type as necessary
-
             default:
                 break;
         }
