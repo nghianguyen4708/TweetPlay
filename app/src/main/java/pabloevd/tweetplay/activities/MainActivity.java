@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     String items;
     TweetIt tweetit;
     public static int signedIn = 0;
-
+    public String[] myItems;
     // Request code that will be used to verify if the result comes from correct activity
     // Can be any integer
 
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_main);
-        String[] myItems = {"Party1", "Party2", "Party3", "Part4"}; // Build Adapter
+        String[] myItems = {"Party1", "Party2", "Party3", "Party4"}; // Build Adapter
         ArrayAdapter<String> playListAdapter = new ArrayAdapter<String>(this, R.layout.the_playlist, myItems);
         ListView playlists = (ListView)findViewById(R.id.playLList);
         playlists.setAdapter(playListAdapter);
@@ -67,11 +68,15 @@ public class MainActivity extends AppCompatActivity {
         //Create list of items
         //Build adapter
         //Set up list view
-        String[] myItems = {"Party1", "Party2", "Party3", "Part4"}; // Build Adapter
+        String[] myItems = {"Party1", "Party2", "Party3", "Party4"}; // Build Adapter
         ArrayAdapter<String> playListAdapter = new ArrayAdapter<String>(this, R.layout.activity_main, myItems);
         ListView playlists = (ListView)findViewById(R.id.playLList);
+
         playlists.setAdapter(playListAdapter);
 
+
+    }
+    public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 
     }
 

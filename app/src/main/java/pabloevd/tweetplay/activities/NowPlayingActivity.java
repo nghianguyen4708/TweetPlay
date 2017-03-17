@@ -48,13 +48,14 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
     private  int musicState =-1;
     private Player mPlayer;
     TweetIt tweetit;
-
+    public String[] myItems ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tweetit = (TweetIt) getApplicationContext();
         viewNum =1;
+
         setContentView(R.layout.activity_nowplaying);
         final Fragment fragment = new SongFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
@@ -80,6 +81,7 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onClick(View view) {
                 System.out.println("PLAY buton was pressed");
+                System.out.println("playing from party :"+myItems);
                  if(tweetit.mPlayer!= null)
                     System.out.print(mPlayer);
                 if(musicState == 0) {
