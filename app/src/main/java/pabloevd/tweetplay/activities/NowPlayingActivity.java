@@ -46,6 +46,7 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tweetit = (TweetIt) getApplicationContext();
+        tweetit.jedisConnect();
         viewNum =1;
 
         setContentView(R.layout.activity_nowplaying);
@@ -59,7 +60,7 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
         nextButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public  void onClick(View view){
-                String next = tweetit.jedis();
+                String next = tweetit.jedisNext();
                 tweetit.mPlayer.playUri(null, next ,0,0);
                 //tweetit.mPlayer.skipToNext(null);
 
