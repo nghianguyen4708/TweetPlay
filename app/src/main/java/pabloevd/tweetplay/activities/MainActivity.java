@@ -79,9 +79,8 @@ public class MainActivity extends AppCompatActivity {
                         String uri = next.getId();
                         tweetit.mPlayer.playUri(null, uri, 0, 0);
                         NowPlayingActivity.musicState = 0;
-                        //NowPlayingActivity.songLabel.setText(next.getTitle());
-                        //NowPlayingActivity.artistLabel.setText(next.getArtist());
                         MainActivity.miniPlayerSongLabel.setText(next.getTitle());
+                        tweetit.currentSong = next;
                     }
                     else{
 

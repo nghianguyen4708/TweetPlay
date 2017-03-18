@@ -39,7 +39,6 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
     private ImageButton changeFragButton;
     public static TextView songLabel;
     public static TextView artistLabel;
-
     private Config playerConfig;
     private int viewNum;
     public static int musicState =-1;
@@ -62,20 +61,18 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
         changeFragButton = (ImageButton) findViewById(R.id.repeatButton);
         songLabel = (TextView) findViewById(R.id.songLabel);
         artistLabel = (TextView) findViewById(R.id.artistLabel);
+        if(tweetit.currentSong != null){
+            songLabel.setText(tweetit.currentSong.getTitle());
+            artistLabel.setText(tweetit.currentSong.getArtist());
+
+
+        }
 
         nextButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public  void onClick(View view){
                 Song next = tweetit.jedisNext();
-                if(next != null) {
-                    String uri = next.getId();
-                    //String next = tweetit.jedisNext();
-                    tweetit.mPlayer.playUri(null, uri, 0, 0);
-                    musicState = 0;
-                    songLabel.setText(next.getTitle());
-                    artistLabel.setText(next.getArtist());
-                    MainActivity.miniPlayerSongLabel.setText(next.getTitle());
-                }
+                playSong(next);
 
             }
 
@@ -99,18 +96,9 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
                 }
 
                 if(musicState == -1) {
-                    Song next = tweetit.jedisNext();
-                    if(next != null) {
-                        String uri = next.getId();
-                        tweetit.mPlayer.playUri(null, uri, 0, 0);
-                        musicState = 0;
-                        songLabel.setText(next.getTitle());
-                        artistLabel.setText(next.getArtist());
-                        MainActivity.miniPlayerSongLabel.setText(next.getTitle());
-                    }
-                    else{
+                    Song songToPlay = tweetit.jedisNext();
+                    playSong(songToPlay);
 
-                    }
                 }
 
             }
@@ -137,6 +125,23 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
 
     }
 
+
+    public void playSong(Song song){
+        Song next = song;
+        if(next != null) {
+            String uri = next.getId();
+            tweetit.mPlayer.playUri(null, uri, 0, 0);
+            musicState = 0;
+            songLabel.setText(next.getTitle());
+            artistLabel.setText(next.getArtist());
+            MainActivity.miniPlayerSongLabel.setText(next.getTitle());
+            tweetit.currentSong = next;
+        }
+        else{
+
+        }
+
+    }
 
     @Override
     public void onStart() {
