@@ -26,7 +26,7 @@ public class TweetIt extends Application {
     public String uri;
     public String key;
     //public Jedis jedis;
-    Jedis jedis = new Jedis("192.168.0.15", 6379);
+    Jedis jedis = new Jedis("127.0.0.1", 6379);
 
     public void jedisConnect(){
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
