@@ -37,8 +37,8 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
     private ImageButton prevButton;
     private ImageButton shuffleButton;
     private ImageButton changeFragButton;
-    private TextView songLabel;
-    private TextView artistLabel;
+    public static TextView songLabel;
+    public static TextView artistLabel;
 
     private Config playerConfig;
     private int viewNum;
@@ -56,7 +56,7 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
 
         setContentView(R.layout.activity_nowplaying);
         final Fragment fragment = new SongFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, fragment, fragment.getClass().getSimpleName()).commit();
         playButton = (FloatingActionButton) findViewById(R.id.playButton);
         nextButton = (ImageButton) findViewById(R.id.playNextButton);
         changeFragButton = (ImageButton) findViewById(R.id.repeatButton);
@@ -67,12 +67,15 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
             @Override
             public  void onClick(View view){
                 Song next = tweetit.jedisNext();
-                String uri = next.getId();
-                //String next = tweetit.jedisNext();
-                tweetit.mPlayer.playUri(null, uri ,0,0);
-                musicState = 0;
-                songLabel.setText(next.getTitle());
-                artistLabel.setText(next.getArtist());
+                if(next != null) {
+                    String uri = next.getId();
+                    //String next = tweetit.jedisNext();
+                    tweetit.mPlayer.playUri(null, uri, 0, 0);
+                    musicState = 0;
+                    songLabel.setText(next.getTitle());
+                    artistLabel.setText(next.getArtist());
+                    MainActivity.miniPlayerSongLabel.setText(next.getTitle());
+                }
 
             }
 
@@ -96,10 +99,18 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
                 }
 
                 if(musicState == -1) {
-                    tweetit.mPlayer.playUri(null, "spotify:track:6i0V12jOa3mr6uu4WYhUBr", 0,0);
-                    tweetit.mPlayer.queue(null, "spotify:track:72Y5nO5FCZtq0w7T5JGbys");
+                    Song next = tweetit.jedisNext();
+                    if(next != null) {
+                        String uri = next.getId();
+                        tweetit.mPlayer.playUri(null, uri, 0, 0);
+                        musicState = 0;
+                        songLabel.setText(next.getTitle());
+                        artistLabel.setText(next.getArtist());
+                        MainActivity.miniPlayerSongLabel.setText(next.getTitle());
+                    }
+                    else{
 
-                    musicState = 0;
+                    }
                 }
 
             }
@@ -111,12 +122,12 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
                 if(viewNum == 1) {
                     viewNum = 2;
                     final Fragment fragment2 = new QueueFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment, fragment2, fragment2.getClass().getSimpleName()).addToBackStack(null).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment, fragment2, fragment2.getClass().getSimpleName()).commit();
                 }
                 else{
                     viewNum =1;
                     final Fragment fragment = new SongFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment, fragment, fragment.getClass().getSimpleName()).commit();
 
                 }
             }

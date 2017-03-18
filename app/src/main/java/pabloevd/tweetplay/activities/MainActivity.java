@@ -14,14 +14,18 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import pabloevd.tweetplay.R;
 import pabloevd.tweetplay.TweetIt;
+import pabloevd.tweetplay.models.Song;
 
 
 public class MainActivity extends AppCompatActivity {
     //TODO: Create list of playlist objects
     private ImageButton nowPlayingButton;
     private ImageButton playButton;
+    public static TextView miniPlayerSongLabel;
     ListView playLList;
     String items;
     TweetIt tweetit;
@@ -47,7 +51,46 @@ public class MainActivity extends AppCompatActivity {
         ListView playlists = (ListView)findViewById(R.id.playLList);
         playlists.setAdapter(playListAdapter);
         playButton = (ImageButton) findViewById(R.id.playButton);
+        miniPlayerSongLabel = (TextView) findViewById(R.id.textView3);
         nowPlayingButton = (ImageButton) findViewById(R.id.nowPlayingButton);
+
+        playButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                System.out.println("PLAY buton was pressed");
+                //System.out.println("playing from party :"+myItems);
+                if(tweetit.mPlayer!= null)
+                    System.out.print(tweetit.mPlayer);
+                else
+                    System.out.println("Player is null");
+                if(NowPlayingActivity.musicState == 0) {
+                    tweetit.mPlayer.pause(null);
+                    NowPlayingActivity.musicState = 1;
+                }
+                else if(NowPlayingActivity.musicState ==1) {
+                    tweetit.mPlayer.resume(null);
+                    NowPlayingActivity.musicState = 0;
+                }
+
+                if(NowPlayingActivity.musicState == -1) {
+                    tweetit.jedisConnect();
+                    Song next = tweetit.jedisNext();
+                    if(next != null) {
+                        String uri = next.getId();
+                        tweetit.mPlayer.playUri(null, uri, 0, 0);
+                        NowPlayingActivity.musicState = 0;
+                        //NowPlayingActivity.songLabel.setText(next.getTitle());
+                        //NowPlayingActivity.artistLabel.setText(next.getArtist());
+                        MainActivity.miniPlayerSongLabel.setText(next.getTitle());
+                    }
+                    else{
+
+                    }
+                }
+
+            }
+            });
+
         nowPlayingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

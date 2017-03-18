@@ -42,8 +42,8 @@ public class TweetIt extends Application {
 
     }
 
-    public Song jedisNext(){
-
+    public Song jedisNext() {
+        try{
         key = jedis.lpop("queue");
         System.out.println("The Key is "+ key);
         artist = jedis.hget(key,"artist");
@@ -59,7 +59,11 @@ public class TweetIt extends Application {
         songObj.setId(uri);
         songObj.setTitle(song);
         songObj.setDuration(duration);
-        return songObj;
+        return songObj;}
+        catch (Exception e){
+            System.out.println("Queue is empty");
+            return null;
+        }
 
     }
 
