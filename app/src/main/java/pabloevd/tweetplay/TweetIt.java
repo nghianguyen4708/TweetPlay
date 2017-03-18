@@ -28,6 +28,7 @@ public class TweetIt extends Application {
 //    Jedis jedis = new Jedis("192.168.0.15", 6379);
     Jedis jedis = new Jedis("172.31.98.53", 6379);
 
+
     public void jedisConnect(){
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
         if (SDK_INT > 8)
