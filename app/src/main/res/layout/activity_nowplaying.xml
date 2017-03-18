@@ -114,7 +114,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             app:elevation="4dp"
-            app:pressedTranslationZ="2dp" />
+            app:pressedTranslationZ="2dp"
+            app:srcCompat="@drawable/ic_play_arrow_white_24dp" />
     </RelativeLayout>
 
 </LinearLayout>
