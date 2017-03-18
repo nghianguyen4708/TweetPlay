@@ -31,7 +31,6 @@ import pabloevd.tweetplay.models.Song;
 
 public class NowPlayingActivity extends AppCompatActivity implements View.OnClickListener,
         SongFragment.OnFragmentInteractionListener, QueueFragment.OnFragmentInteractionListener{
-        //,SpotifyPlayer.NotificationCallback, ConnectionStateCallback {
     private FloatingActionButton playButton;
     private ImageButton nextButton;
     private ImageButton prevButton;
@@ -165,7 +164,7 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
     public void onFragmentInteraction(Uri uri) {
 
     }
-//
+
 
 
 

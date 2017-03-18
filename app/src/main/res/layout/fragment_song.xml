@@ -1,16 +1,19 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="pabloevd.tweetplay.fragments.SongFragment"
-    android:background="@android:color/holo_orange_dark">
+    android:background="@color/common_google_signin_btn_text_light_default"
+    tools:context="pabloevd.tweetplay.fragments.SongFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"
-        tools:text="This is the Song Queue....GO BENGALS!!"
-        android:textSize="36sp" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:adjustViewBounds="false"
+        android:cropToPadding="false"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/wogypyb" />
 </FrameLayout>

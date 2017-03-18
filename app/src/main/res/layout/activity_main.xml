@@ -59,7 +59,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="16dp"
                 android:background="@android:drawable/menuitem_background"
-                app:srcCompat="@color/common_google_signin_btn_text_light_disabled" />
+                app:srcCompat="@drawable/wogypyb" />
 
             <TextView
                 android:id="@+id/textView3"
