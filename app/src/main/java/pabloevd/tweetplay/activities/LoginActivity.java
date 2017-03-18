@@ -109,7 +109,7 @@ public class LoginActivity extends Activity implements
             NowPlayingActivity.musicState = 1;
         }
         if(playerEvent.name().equals("kSpPlaybackNotifyPlay")){
-            NowPlayingActivity.musicState = 1;
+            NowPlayingActivity.musicState = 0;
         }
 
         switch (playerEvent) {

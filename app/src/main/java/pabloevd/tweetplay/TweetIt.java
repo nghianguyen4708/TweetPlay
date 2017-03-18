@@ -8,7 +8,7 @@ import com.spotify.sdk.android.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import pabloevd.tweetplay.models.Song;
 import redis.clients.jedis.*;
 
 /**
@@ -25,8 +25,8 @@ public class TweetIt extends Application {
     public String duration;
     public String uri;
     public String key;
-    //public Jedis jedis;
-    Jedis jedis = new Jedis("192.168.0.15", 6379);
+//    Jedis jedis = new Jedis("192.168.0.15", 6379);
+    Jedis jedis = new Jedis("172.31.98.53", 6379);
 
     public void jedisConnect(){
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
@@ -41,17 +41,8 @@ public class TweetIt extends Application {
 
     }
 
-    public String jedisNext(){
-//        int SDK_INT = android.os.Build.VERSION.SDK_INT;
-//        if (SDK_INT > 8)
-//        {
-//            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-//                    .permitAll().build();
-//            StrictMode.setThreadPolicy(policy);
-//        }
+    public Song jedisNext(){
 
-//        Jedis jedis = new Jedis("192.168.0.15", 6379);
-        //jedisConnect();
         key = jedis.lpop("queue");
         System.out.println("The Key is "+ key);
         artist = jedis.hget(key,"artist");
@@ -62,8 +53,12 @@ public class TweetIt extends Application {
         System.out.println("The duration is "+ duration);
         uri = jedis.hget(key,"uri");
         System.out.println("The uri is "+ uri);
-        //queueList();
-    return uri;
+        Song songObj = new Song();
+        songObj.setArtist(artist);
+        songObj.setId(uri);
+        songObj.setTitle(song);
+        songObj.setDuration(duration);
+        return songObj;
 
     }
 
@@ -75,17 +70,11 @@ public class TweetIt extends Application {
         List<String> songlist = new ArrayList<>();
 
         for (String temp : queue) {
-            //System.out.println(temp);
             artist = jedis.hget(temp,"artist");
             song = jedis.hget(temp,"song");
             listItem = song + " " + artist;
-            //System.out.println(listItem);
             songlist.add(listItem);
-
         }
-        //System.out.println(queue);
-        //System.out.println(songlist);
-
 
         return songlist;
     }
