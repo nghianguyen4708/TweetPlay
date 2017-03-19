@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.ListView;
 import com.google.android.gms.appindexing.Action;
@@ -107,9 +108,11 @@ public class LoginActivity extends Activity implements
         }
         if(playerEvent.name().equals("kSpPlaybackNotifyPause")){
             NowPlayingActivity.musicState = 1;
+
         }
         if(playerEvent.name().equals("kSpPlaybackNotifyPlay")){
             NowPlayingActivity.musicState = 0;
+
         }
 
         switch (playerEvent) {

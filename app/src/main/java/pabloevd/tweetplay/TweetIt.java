@@ -26,8 +26,8 @@ public class TweetIt extends Application {
     public String uri;
     public String key;
     public static Song currentSong;
-//    Jedis jedis = new Jedis("192.168.0.15", 6379);
-//    Jedis jedis = new Jedis("172.31.98.53", 6379);
+
+
     Jedis jedis = new Jedis("192.168.0.15", 6379);
 
 
