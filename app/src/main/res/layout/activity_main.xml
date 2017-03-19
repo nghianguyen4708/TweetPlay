@@ -36,7 +36,6 @@
 
             <ImageButton
                 android:id="@+id/playButton"
-                style="@style/Widget.AppCompat.ImageButton"
                 android:layout_width="40dp"
                 android:layout_height="50dp"
                 android:layout_alignParentEnd="true"

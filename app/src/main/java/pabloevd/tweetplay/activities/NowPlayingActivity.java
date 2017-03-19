@@ -122,6 +122,8 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
                 if(musicState == -1) {
                     Song songToPlay = tweetit.jedisNext();
                     playSong(songToPlay);
+                    playButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.pause_ffffff_25));
+
 
                 }
 
@@ -135,11 +137,14 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
                     viewNum = 2;
                     final Fragment fragment2 = new QueueFragment();
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment, fragment2, fragment2.getClass().getSimpleName()).commit();
+                     changeFragButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.music_record_ffffff_25));
+
                 }
                 else{
                     viewNum =1;
                     final Fragment fragment = new SongFragment();
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment, fragment, fragment.getClass().getSimpleName()).commit();
+                    changeFragButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.playlist_ffffff_25));
 
                 }
             }

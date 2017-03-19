@@ -8,6 +8,7 @@ package pabloevd.tweetplay.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -66,10 +67,15 @@ public class MainActivity extends AppCompatActivity {
                 if(NowPlayingActivity.musicState == 0) {
                     tweetit.mPlayer.pause(null);
                     NowPlayingActivity.musicState = 1;
+                    playButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.play_000000_25));
+
+
                 }
                 else if(NowPlayingActivity.musicState ==1) {
                     tweetit.mPlayer.resume(null);
                     NowPlayingActivity.musicState = 0;
+                    playButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.pause_black_000000_25));
+
                 }
 
                 if(NowPlayingActivity.musicState == -1) {
@@ -80,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                         tweetit.mPlayer.playUri(null, uri, 0, 0);
                         NowPlayingActivity.musicState = 0;
                         MainActivity.miniPlayerSongLabel.setText(next.getTitle());
+                        playButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.pause_black_000000_25));
                         tweetit.currentSong = next;
                     }
                     else{

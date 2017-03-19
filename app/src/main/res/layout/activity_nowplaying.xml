@@ -91,7 +91,7 @@
             android:elevation="4dp"
             android:padding="22dp"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_repeat_white_24dp" />
+            app:srcCompat="@drawable/playlist_ffffff_25" />
 
         <ImageButton
             android:id="@+id/shuffleButton"
