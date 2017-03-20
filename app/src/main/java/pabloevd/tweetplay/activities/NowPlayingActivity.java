@@ -104,8 +104,10 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
             public void onClick(View view) {
                 System.out.println("PLAY buton was pressed");
                 System.out.println("playing from party :"+myItems);
-                 if(tweetit.mPlayer!= null)
-                    System.out.print(mPlayer);
+                 if(tweetit.mPlayer!= null) {
+                     System.out.print(mPlayer);
+                     System.out.println(tweetit.queueList());
+                 }
                 else
                     System.out.println("Player is null");
                 if(musicState == 0) {

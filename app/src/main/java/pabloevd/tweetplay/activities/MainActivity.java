@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_main);
-        String[] myItems = {"Party1", "Party2", "Party3", "Party4"}; // Build Adapter
+        String[] myItems = {"  Party1", "  Party2", "  Party3", "  Party4"}; // Build Adapter
         ArrayAdapter<String> playListAdapter = new ArrayAdapter<String>(this, R.layout.the_playlist, myItems);
         ListView playlists = (ListView)findViewById(R.id.playLList);
         playlists.setAdapter(playListAdapter);

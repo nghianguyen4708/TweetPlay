@@ -6,11 +6,9 @@
     android:background="@color/common_google_signin_btn_text_light_focused">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"
-        tools:text="this is the future queue list"
-        android:textColor="@android:color/holo_orange_dark" />
 
+    <ListView
+        android:id="@+id/queueList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </FrameLayout>

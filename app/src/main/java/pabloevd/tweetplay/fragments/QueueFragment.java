@@ -82,6 +82,14 @@ public class QueueFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+//        ListView content = (ListView) rootView.findViewById(R.id.queueList);
+//        content.addView(aboutPage);
+//        setContentView(R.layout.fragment_queue);
+//        String[] myItems = {"  Party1", "  Party2", "  Party3", "  Party4"}; // Build Adapter
+//        ArrayAdapter<String> queueAdapter = new ArrayAdapter<String>(this, R.layout.);
+//        ListView queueList = (ListView) findViewById(R.id.queueList);
+//        queueList.setAdapter(queueAdapter);
     }
 
     @Override
