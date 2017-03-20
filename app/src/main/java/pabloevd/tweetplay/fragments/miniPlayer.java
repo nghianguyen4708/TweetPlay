@@ -7,8 +7,21 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import pabloevd.tweetplay.R;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import pabloevd.tweetplay.R;
+import pabloevd.tweetplay.TweetIt;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +32,8 @@ import pabloevd.tweetplay.R;
  * create an instance of this fragment.
  */
 public class miniPlayer extends Fragment {
+    
+    
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -27,6 +42,7 @@ public class miniPlayer extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private TextView textView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -44,7 +60,9 @@ public class miniPlayer extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
     public static miniPlayer newInstance(String param1, String param2) {
+        //TextView tv1 = (TextView)findViewById(R.id.textView);
         miniPlayer fragment = new miniPlayer();
+       // tv1.setText("gothere");
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
