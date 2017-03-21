@@ -37,6 +37,7 @@ public class TweetIt extends Application {
 
 
 
+
     public void jedisConnect(){
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
         if (SDK_INT > 8)
