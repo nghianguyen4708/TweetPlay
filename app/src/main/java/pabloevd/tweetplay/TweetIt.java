@@ -8,6 +8,8 @@ import com.spotify.sdk.android.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import pabloevd.tweetplay.models.Queue;
 import pabloevd.tweetplay.models.Song;
 import redis.clients.jedis.*;
 
@@ -26,11 +28,10 @@ public class TweetIt extends Application {
     public String uri;
     public String key;
     public static Song currentSong;
-    public static List queue;
-
-
+    public static List currentQueue;
+    public static ArrayList<Song> prevPayed = new ArrayList<Song>();
     //Jedis jedis = new Jedis("192.168.0.15", 6379);
-    Jedis jedis = new Jedis("172.24.89.81", 6379);
+    Jedis jedis = new Jedis("72.190.137.46", 6379);
 
 
 
@@ -50,21 +51,18 @@ public class TweetIt extends Application {
     public Song jedisNext() {
         try{
         key = jedis.lpop("queue");
-        System.out.println("The Key is "+ key);
         artist = jedis.hget(key,"artist");
-        System.out.println("The artist is "+ artist);
         song = jedis.hget(key,"song");
-        System.out.println("The song is "+ song);
         duration = jedis.hget(key,"duration");
-        System.out.println("The duration is "+ duration);
         uri = jedis.hget(key,"uri");
-        System.out.println("The uri is "+ uri);
         Song songObj = new Song();
         songObj.setArtist(artist);
         songObj.setId(uri);
         songObj.setTitle(song);
         songObj.setDuration(duration);
-        return songObj;}
+
+        return songObj;
+        }
         catch (Exception e){
             System.out.println("Queue is empty");
             return null;
@@ -75,17 +73,17 @@ public class TweetIt extends Application {
 
     public List<String> queueList(){
 
-        List<String> queue = jedis.lrange("queue", 0,-1);
+        List<String> currentQueue = jedis.lrange("queue", 0,-1);
         String listItem;
         List<String> songlist = new ArrayList<>();
 
-        for (String temp : queue) {
+        for (String temp : currentQueue) {
             artist = jedis.hget(temp,"artist");
             song = jedis.hget(temp,"song");
             listItem = song + " " + artist;
             songlist.add(listItem);
         }
-        queue = songlist;
+        currentQueue = songlist;
         return songlist;
     }
 }

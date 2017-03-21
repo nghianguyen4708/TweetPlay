@@ -18,6 +18,11 @@ public class Queue {
         queue = new ArrayList<Song>();
     }
 
+    public Queue(String title, ArrayList<Song> queue){
+        name = title;
+        this.queue = queue;
+
+    }
 
     public void playSong(int requested){
         if(requested < 0)  // Play from current index
