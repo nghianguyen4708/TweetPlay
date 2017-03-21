@@ -39,17 +39,16 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
     private ImageButton changeFragButton;
     public static TextView songLabel;
     public static TextView artistLabel;
-    private int viewNum;
-    public static int musicState =-1;
+    private int viewNum; //Flag for fragment being displayed. 1 is showing album art, else queue
+    public static int musicState =-1; //This is -1 when nothing has played. 0 When playing and 1 when paused
     TweetIt tweetit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tweetit = (TweetIt) getApplicationContext();
-        System.out.println("We enter the now playing activity");
+        //Try to connect to redis 5 times. Else exit
         int retryCount = 0;
-
         while(true) {
 
             try {
@@ -62,10 +61,9 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
                 continue;
             }
         }
+
+        //Set up activity view
         viewNum = 1;
-
-        // where is the backend code?
-
         setContentView(R.layout.activity_nowplaying);
         final Fragment fragment = new SongFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment, fragment, fragment.getClass().getSimpleName()).commit();
@@ -75,24 +73,28 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
         changeFragButton = (ImageButton) findViewById(R.id.repeatButton);
         songLabel = (TextView) findViewById(R.id.songLabel);
         artistLabel = (TextView) findViewById(R.id.artistLabel);
+
+        //Set play/pause button based on player state
         if(musicState == 0){
             playButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.pause_ffffff_25));
         }
+        //Set song and arist label
         if(TweetIt.currentSong != null){
             songLabel.setText(TweetIt.currentSong.getTitle());
             artistLabel.setText(TweetIt.currentSong.getArtist());
-
         }
-
+        //Next button listener and logic
         nextButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public  void onClick(View view){
+                //Check if we are playing from the previously played list of songs
+                //If we are we change the index here back by 1
                 if(TweetIt.previousListIndex > 0){
                     TweetIt.previousListIndex--;
                     Song next = TweetIt.prevPayed.get(TweetIt.prevPayed.size()-TweetIt.previousListIndex-1);
                     playSong(next);
-
                 }
+                //If previousListIndex is 0 means we are playing from database queue
                 else if(TweetIt.previousListIndex == 0) {
                     Song next = tweetit.jedisNext();
                     playSong(next);
@@ -101,7 +103,7 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
             }
 
         });
-
+        //Previous song button. Start playing from previous queue
         prevButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public  void onClick(View view){
@@ -112,42 +114,45 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
                 }
                 System.out.println(TweetIt.prevPayed);
             }
-
-        });        playButton.setOnClickListener(new View.OnClickListener(){
+        });
+        //Play button logic
+        playButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 System.out.println("PLAY buton was pressed");
+                //Just checking if player was succesfully initialized
                  if(tweetit.mPlayer!= null) {
                      System.out.print(tweetit.mPlayer);
                      System.out.println(tweetit.queueList());
                  }
                 else
                     System.out.println("Player is null");
+                //If play is pressed while music is playing, then pause and change music state to 1
                 if(musicState == 0) {
                    tweetit.mPlayer.pause(null);
                     playButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_play_arrow_white_24dp));
                     musicState = 1;
                 }
-                else if(musicState ==1) {
+                //If music state is paused, then play and set to 0
+                else if(musicState == 1) {
                     tweetit.mPlayer.resume(null);
                     playButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.pause_ffffff_25));
                     musicState = 0;
                 }
-
+                //If music has not been initialized. Play next song in queue.
                 if(musicState == -1) {
                     Song songToPlay = tweetit.jedisNext();
                     playSong(songToPlay);
                     playButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.pause_ffffff_25));
-
-
                 }
 
             }
         });
-
+        //Change fragment displayed in Now Playing
         changeFragButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //If album art is displayed change to queue list
                 if(viewNum == 1) {
                     viewNum = 2;
                     final Fragment fragment2 = new QueueFragment();
@@ -155,21 +160,18 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
                      changeFragButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.music_record_ffffff_25));
 
                 }
+                //If queue list is being shown, then show album art
                 else{
                     viewNum =1;
                     final Fragment fragment = new SongFragment();
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment, fragment, fragment.getClass().getSimpleName()).commit();
                     changeFragButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.playlist_ffffff_25));
-
                 }
             }
         });
-
-
-
     }
 
-
+    //Logic to play song. This is called by most control buttons, and calls player.
     public void playSong(Song song){
         Song next = song;
         if(next != null) {

@@ -37,8 +37,9 @@ public class TweetIt extends Application {
 
 
 
-
+    //Connect redis instance
     public void jedisConnect(){
+        //Override thread policy for jedis to run
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
         if (SDK_INT > 8)
         {
@@ -46,11 +47,13 @@ public class TweetIt extends Application {
                     .permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-
+        //Should use pooling later on
+        //Connect
         jedis.connect();
 
     }
 
+    //Get next Song object from redis database. Currently based on 'queue' key
     public Song jedisNext() {
         try{
             key = jedis.lpop("queue");
@@ -74,7 +77,7 @@ public class TweetIt extends Application {
 
     }
 
-
+    //Returns a list of the queued songs in format "SongName ArtistName"
     public List<String> queueList(){
 
         List<String> currentQueue = jedis.lrange("queue", 0,-1);
