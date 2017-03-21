@@ -58,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
         playButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                System.out.println("PLAY buton was pressed");
+                System.out.println("PLAY button was pressed");
                 //System.out.println("playing from party :"+myItems);
-                if(tweetit.mPlayer!= null)
+                if(tweetit.mPlayer != null)
                     System.out.print(tweetit.mPlayer);
                 else
                     System.out.println("Player is null");
@@ -71,14 +71,13 @@ public class MainActivity extends AppCompatActivity {
 
 
                 }
-                else if(NowPlayingActivity.musicState ==1) {
+                else if(NowPlayingActivity.musicState == 1) {
                     tweetit.mPlayer.resume(null);
                     NowPlayingActivity.musicState = 0;
                     playButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.pause_black_000000_25));
 
                 }
-
-                if(NowPlayingActivity.musicState == -1) {
+                else if(NowPlayingActivity.musicState == -1) {
                     tweetit.jedisConnect();
                     Song next = tweetit.jedisNext();
                     if(next != null) {
@@ -88,9 +87,6 @@ public class MainActivity extends AppCompatActivity {
                         MainActivity.miniPlayerSongLabel.setText(next.getTitle());
                         playButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.pause_black_000000_25));
                         tweetit.currentSong = next;
-                    }
-                    else{
-
                     }
                 }
 

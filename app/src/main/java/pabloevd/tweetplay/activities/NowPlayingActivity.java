@@ -6,13 +6,11 @@ package pabloevd.tweetplay.activities;
  */
 
 
-import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
@@ -41,12 +39,9 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
     private ImageButton changeFragButton;
     public static TextView songLabel;
     public static TextView artistLabel;
-    private Config playerConfig;
     private int viewNum;
     public static int musicState =-1;
-    private Player mPlayer;
     TweetIt tweetit;
-    public String[] myItems ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,16 +57,14 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
             break;
             } catch (Exception e) {
                 if(retryCount > 5)
-                {
-                throw new RuntimeException("Could not execute getAngle().", e);
-                }
-
-
-            retryCount++;
-            continue;
+                    throw new RuntimeException("Could not connect", e);
+                retryCount++;
+                continue;
             }
         }
-        viewNum =1;
+        viewNum = 1;
+
+        // where is the backend code?
 
         setContentView(R.layout.activity_nowplaying);
         final Fragment fragment = new SongFragment();
@@ -81,12 +74,12 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
         changeFragButton = (ImageButton) findViewById(R.id.repeatButton);
         songLabel = (TextView) findViewById(R.id.songLabel);
         artistLabel = (TextView) findViewById(R.id.artistLabel);
-        if(musicState ==0){
+        if(musicState == 0){
             playButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.pause_ffffff_25));
         }
-        if(tweetit.currentSong != null){
-            songLabel.setText(tweetit.currentSong.getTitle());
-            artistLabel.setText(tweetit.currentSong.getArtist());
+        if(TweetIt.currentSong != null){
+            songLabel.setText(TweetIt.currentSong.getTitle());
+            artistLabel.setText(TweetIt.currentSong.getArtist());
 
         }
 
@@ -103,9 +96,8 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onClick(View view) {
                 System.out.println("PLAY buton was pressed");
-                System.out.println("playing from party :"+myItems);
                  if(tweetit.mPlayer!= null) {
-                     System.out.print(mPlayer);
+                     System.out.print(tweetit.mPlayer);
                      System.out.println(tweetit.queueList());
                  }
                 else
@@ -166,7 +158,7 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
             songLabel.setText(next.getTitle());
             artistLabel.setText(next.getArtist());
             MainActivity.miniPlayerSongLabel.setText(next.getTitle());
-            tweetit.currentSong = next;
+            TweetIt.currentSong = next;
         }
         else{
 
