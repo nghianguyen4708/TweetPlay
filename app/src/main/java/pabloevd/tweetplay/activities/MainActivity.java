@@ -32,9 +32,6 @@ public class MainActivity extends AppCompatActivity {
     TweetIt tweetit;
     public static int signedIn = 0;
     public String[] myItems;
-    public String queueName;
-    public String[] songList;
-    TextView textView;
     // Request code that will be used to verify if the result comes from correct activity
     // Can be any integer
 
@@ -91,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
                         playButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.pause_black_000000_25));
                         tweetit.currentSong = next;
                     }
+                    else{
+
+                    }
                 }
 
             }
@@ -119,11 +119,12 @@ public class MainActivity extends AppCompatActivity {
         String[] myItems = {"Party1", "Party2", "Party3", "Party4"}; // Build Adapter
         ArrayAdapter<String> playListAdapter = new ArrayAdapter<String>(this, R.layout.activity_main, myItems);
         ListView playlists = (ListView)findViewById(R.id.playLList);
+
         playlists.setAdapter(playListAdapter);
 
 
     }
-    public void onItemClick(AdapterView<?> arg0, View arg1, int position) {
+    public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 
     }
 
