@@ -71,6 +71,7 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment, fragment, fragment.getClass().getSimpleName()).commit();
         playButton = (FloatingActionButton) findViewById(R.id.playButton);
         nextButton = (ImageButton) findViewById(R.id.playNextButton);
+        prevButton = (ImageButton) findViewById(R.id.playPrevButton);
         changeFragButton = (ImageButton) findViewById(R.id.repeatButton);
         songLabel = (TextView) findViewById(R.id.songLabel);
         artistLabel = (TextView) findViewById(R.id.artistLabel);
@@ -86,13 +87,33 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
         nextButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public  void onClick(View view){
-                Song next = tweetit.jedisNext();
-                playSong(next);
+                if(TweetIt.previousListIndex > 0){
+                    TweetIt.previousListIndex--;
+                    Song next = TweetIt.prevPayed.get(TweetIt.prevPayed.size()-TweetIt.previousListIndex-1);
+                    playSong(next);
 
+                }
+                else if(TweetIt.previousListIndex == 0) {
+                    Song next = tweetit.jedisNext();
+                    playSong(next);
+                }
+                System.out.println(TweetIt.prevPayed);
             }
 
         });
-        playButton.setOnClickListener(new View.OnClickListener(){
+
+        prevButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public  void onClick(View view){
+                if((TweetIt.prevPayed.size()-TweetIt.previousListIndex-1)>-1) {
+                    Song prev = TweetIt.prevPayed.get(TweetIt.prevPayed.size() - TweetIt.previousListIndex - 1);
+                    TweetIt.previousListIndex++;
+                    playSong(prev);
+                }
+                System.out.println(TweetIt.prevPayed);
+            }
+
+        });        playButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 System.out.println("PLAY buton was pressed");
@@ -155,6 +176,7 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
             String uri = next.getId();
             tweetit.mPlayer.playUri(null, uri, 0, 0);
             musicState = 0;
+            playButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.pause_ffffff_25));
             songLabel.setText(next.getTitle());
             artistLabel.setText(next.getArtist());
             MainActivity.miniPlayerSongLabel.setText(next.getTitle());

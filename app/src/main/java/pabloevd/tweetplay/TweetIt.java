@@ -27,10 +27,12 @@ public class TweetIt extends Application {
     public String duration;
     public String uri;
     public String key;
+    public static int previousListIndex = 0;
+    public static int previousListLength;
     public static Song currentSong;
     public static List currentQueue;
     public static ArrayList<Song> prevPayed = new ArrayList<Song>();
-    //Jedis jedis = new Jedis("192.168.0.15", 6379);
+    //Jedis jedis = new Jedis("172.24.89.81", 6379);
     Jedis jedis = new Jedis("72.190.137.46", 6379);
 
 
@@ -50,18 +52,19 @@ public class TweetIt extends Application {
 
     public Song jedisNext() {
         try{
-        key = jedis.lpop("queue");
-        artist = jedis.hget(key,"artist");
-        song = jedis.hget(key,"song");
-        duration = jedis.hget(key,"duration");
-        uri = jedis.hget(key,"uri");
-        Song songObj = new Song();
-        songObj.setArtist(artist);
-        songObj.setId(uri);
-        songObj.setTitle(song);
-        songObj.setDuration(duration);
-
-        return songObj;
+            key = jedis.lpop("queue");
+            artist = jedis.hget(key,"artist");
+            song = jedis.hget(key,"song");
+            duration = jedis.hget(key,"duration");
+            uri = jedis.hget(key,"uri");
+            Song songObj = new Song();
+            songObj.setArtist(artist);
+            songObj.setId(uri);
+            songObj.setTitle(song);
+            songObj.setDuration(duration);
+            prevPayed.add(songObj);
+            previousListLength = prevPayed.size();
+            return songObj;
         }
         catch (Exception e){
             System.out.println("Queue is empty");
