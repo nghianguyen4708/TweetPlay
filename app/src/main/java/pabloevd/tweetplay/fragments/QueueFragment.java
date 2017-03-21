@@ -107,67 +107,6 @@ public class QueueFragment extends Fragment {
         }
     }
 
-/**
-    public View getView(int position, View convertView, ViewGroup parent)
-    {
-        // Queue to display
-       // Queue queue = (Queue) this.getItem(position);
-        // Check box to display which queue is selected
-        // The child views in each row.
-        //songList Songlist
-        //queueList queueList; <
-        private CheckBox checkBox;
-        private TextView textView;
-
-        // Create new songlist view
-        if (convertView == null)
-        {
-            convertView = inflater.inflate(R.layout.list, null);
-
-            // Find the child views.
-            //ListView playlists = (ListView)findViewById(R.id.playLList);
-            checkBox = (CheckBox) convertView.findViewById(R.id.CheckBox);
-
-            convertView.setTag(new QueueViewHolder(textView, checkBox));
-
-            // If CheckBox is toggled, update the planet it is tagged with.
-            checkBox.setOnClickListener(new View.OnClickListener()
-            {
-                public void onClick(View v)
-                {
-                    CheckBox cb = (CheckBox) v;
-                    Queue queue = (Queue) cb.getTag();
-                    queue.setChecked(cb.isChecked());
-                }
-            });
-        }
-        // Reuse existing row view
-        else
-        {
-            // Because we use a ViewHolder, we avoid having to call
-            // findViewById().
-            QueueViewHolder viewHolder = (PlanetViewHolder) convertView
-                    .getTag();
-            checkBox = viewHolder.getCheckBox();
-            textView = viewHolder.getTextView();
-        }
-
-        // Tag the CheckBox with the Planet it is displaying, so that we can
-        // access the planet in onClick() when the CheckBox is toggled.
-        checkBox.setTag(queue);
-
-        // Display planet data
-        checkBox.setChecked(queue.isChecked());
-        textView.setText(queue.getName());
-
-        return convertView;
-    }
-
-}
-
-
-
-***/
 
     @Override
     public void onAttach(Context context) {
