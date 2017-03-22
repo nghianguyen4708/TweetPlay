@@ -15,10 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
-import com.spotify.sdk.android.player.Config;
-import com.spotify.sdk.android.player.Player;
-
 import pabloevd.tweetplay.R;
 import pabloevd.tweetplay.TweetIt;
 import pabloevd.tweetplay.fragments.QueueFragment;

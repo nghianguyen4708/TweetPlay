@@ -22,7 +22,7 @@ import pabloevd.tweetplay.TweetIt;
 import pabloevd.tweetplay.models.Song;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     //TODO: Create list of playlist objects
     private ImageButton nowPlayingButton;
     private ImageButton playButton;
@@ -47,13 +47,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_main);
-        String[] myItems = {"  Party1", "  Party2", "  Party3", "  Party4"}; // Build Adapter
+        String[] myItems = {"  TweetIt Session", "  Session 2", "  Session 3", "  Session 4"}; // Build Adapter
         ArrayAdapter<String> playListAdapter = new ArrayAdapter<String>(this, R.layout.the_playlist, myItems);
         ListView playlists = (ListView)findViewById(R.id.playLList);
         playlists.setAdapter(playListAdapter);
         playButton = (ImageButton) findViewById(R.id.playButton);
         miniPlayerSongLabel = (TextView) findViewById(R.id.textView3);
         nowPlayingButton = (ImageButton) findViewById(R.id.nowPlayingButton);
+        playlists.setOnItemClickListener(onItemClickListener);
+
+
 
         playButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -89,10 +92,8 @@ public class MainActivity extends AppCompatActivity {
                         tweetit.currentSong = next;
                     }
                     else{
-
                     }
                 }
-
             }
             });
 
@@ -105,29 +106,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
-
-
-
-
-
-    public void populatePlayListView(){
-        //Create list of items
-        //Build adapter
-        //Set up list view
-        String[] myItems = {"Party1", "Party2", "Party3", "Party4"}; // Build Adapter
-        ArrayAdapter<String> playListAdapter = new ArrayAdapter<String>(this, R.layout.activity_main, myItems);
-        ListView playlists = (ListView)findViewById(R.id.playLList);
-
-        playlists.setAdapter(playListAdapter);
-
-
-    }
+//    @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 
     }
 
+    private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+            // TODO Auto-generated method stub
+            startActivity(new Intent(MainActivity.this, PlayListActivity.class));
+
+            //do your job here, position is the item position in ListView
+        }
+    };
 
 
 
@@ -141,6 +133,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
+
+    }
+
+    @Override
+    public void onClick(View view) {
 
     }
 }
