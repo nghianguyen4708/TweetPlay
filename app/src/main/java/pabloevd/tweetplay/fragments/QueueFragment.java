@@ -1,5 +1,6 @@
 package pabloevd.tweetplay.fragments;
 
+import android.support.v4.app.ListFragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,163 +8,96 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-
-
+import android.app.Activity;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import pabloevd.tweetplay.R;
 import pabloevd.tweetplay.TweetIt;
 import pabloevd.tweetplay.models.Song;
 
+public class QueueFragment extends ListFragment implements OnItemClickListener{
+    //private List<String> szSongList;
+    private List<String> szSongList = null;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link QueueFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link QueueFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class QueueFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    //private OnFragmentInteractionListener mListener;
 
-    public String queuename;
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-    private ArrayList<Song> songList = new ArrayList<>();
-
-    private OnFragmentInteractionListener mListener;
-
+    // Constructor must be empty
     public QueueFragment() {
-        // Required empty public constructor
+        TweetIt myTweetIt = new TweetIt();
+        //szSongList = Arrays.asList("Song 1", "Song 2", "Song 3");
+        szSongList = myTweetIt.queueList();
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment QueueFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static QueueFragment newInstance(String param1, String param2) {
-        QueueFragment fragment = new QueueFragment();
-
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        if (getArguments() != null) {
+//            for (i = 0; i < songListSize; i++) {
+//                mParam1 = getArguments().getString(ARG_PARAM1);
+//                mParam2 = getArguments().getString(ARG_PARAM2);
+//            }
+//        }
 //
 //        /**
 //         *
 //         * populate array
 //         */
-      songList.add(new Song('t',"Nghia is pretty Remix"));
-//
-  }
-//
+//     songList.add(new Song('t',"Nghia is pretty Remix"));
+//    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.queue_list, container, false);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+        Toast.makeText(getActivity(), "Item: " + position, Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ArrayAdapter adapter = new SongListAdapter(getActivity(),
+                R.layout.queue_list, szSongList);
+        setListAdapter(adapter);
+        getListView().setOnItemClickListener(this);
+    }
+
     public class SongListAdapter extends ArrayAdapter<String> {
 
         private Context context;
         private List<String> songList;
 
         //constructor, call on creation
-        public SongListAdapter(Context context, int resource, ArrayList<String> objects) {
+        public SongListAdapter(Context context, int resource, List<String> objects) {
             super(context, resource, objects);
             this.context = context;
             this.songList = objects;
         }
-
 
         public View getView(int position, View convertView, ViewGroup parent) {
 
             String title = songList.get(position);
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.queue_list, null);
-            TextView titles = (TextView) view.findViewById(R.id.textView2);
-            titles.setText("song 1 ");
+            TextView titles = (TextView) view.findViewById(R.id.songTitles);
+            titles.setText(title);
             return view;
-       }
-  }
-
-        @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_queue, container, false);
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
         }
-    }
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }

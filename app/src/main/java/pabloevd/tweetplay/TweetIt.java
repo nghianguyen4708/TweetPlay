@@ -75,7 +75,6 @@ public class TweetIt extends Application {
             System.out.println("Queue is empty");
             return null;
         }
-
     }
 
     //Returns a list of the queued songs in format "SongName ArtistName"
@@ -88,7 +87,7 @@ public class TweetIt extends Application {
         for (String temp : currentQueue) {
             artist = jedis.hget(temp,"artist");
             song = jedis.hget(temp,"song");
-            listItem = song.toString();
+            listItem = "" + song + " - " + artist;
             songlist.add(listItem);
         }
         currentQueue = songlist;

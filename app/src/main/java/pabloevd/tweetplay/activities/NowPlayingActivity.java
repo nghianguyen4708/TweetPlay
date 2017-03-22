@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -32,7 +33,7 @@ import java.util.*;
  */
 
 public class NowPlayingActivity extends AppCompatActivity implements View.OnClickListener,
-        SongFragment.OnFragmentInteractionListener, QueueFragment.OnFragmentInteractionListener{
+        SongFragment.OnFragmentInteractionListener{//, QueueFragment.OnFragmentInteractionListener{
     public static FloatingActionButton playButton;
     private ImageButton nextButton;
     private ImageButton prevButton;
@@ -157,6 +158,7 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
                 //If album art is displayed change to queue list
                 if(viewNum == 1) {
                     viewNum = 2;
+
                     final Fragment fragment2 = new QueueFragment();
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment, fragment2, fragment2.getClass().getSimpleName()).commit();
                      changeFragButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.music_record_ffffff_25));
