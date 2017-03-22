@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import pabloevd.tweetplay.R;
 import pabloevd.tweetplay.TweetIt;
+import pabloevd.tweetplay.models.Song;
 
 
 /**
@@ -46,11 +47,12 @@ public class QueueFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    public String[] songList ;
+
     public String queuename;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private ArrayList<Song> songList = new ArrayList<>();
 
     private OnFragmentInteractionListener mListener;
 
@@ -69,6 +71,7 @@ public class QueueFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static QueueFragment newInstance(String param1, String param2) {
         QueueFragment fragment = new QueueFragment();
+
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -84,16 +87,40 @@ public class QueueFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-//        ListView content = (ListView) rootView.findViewById(R.id.queueList);
-//        content.addView(aboutPage);
-//        setContentView(R.layout.fragment_queue);
-//        String[] myItems = {"  Party1", "  Party2", "  Party3", "  Party4"}; // Build Adapter
-//        ArrayAdapter<String> queueAdapter = new ArrayAdapter<String>(this, R.layout.);
-//        ListView queueList = (ListView) findViewById(R.id.queueList);
-//        queueList.setAdapter(queueAdapter);
-    }
+//
+//        /**
+//         *
+//         * populate array
+//         */
+      songList.add(new Song('t',"Nghia is pretty Remix"));
+//
+  }
+//
+    public class SongListAdapter extends ArrayAdapter<String> {
 
-    @Override
+        private Context context;
+        private List<String> songList;
+
+        //constructor, call on creation
+        public SongListAdapter(Context context, int resource, ArrayList<String> objects) {
+            super(context, resource, objects);
+            this.context = context;
+            this.songList = objects;
+        }
+
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            String title = songList.get(position);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.queue_list, null);
+            TextView titles = (TextView) view.findViewById(R.id.textView2);
+            titles.setText("song 1 ");
+            return view;
+       }
+  }
+
+        @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment

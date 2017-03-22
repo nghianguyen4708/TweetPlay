@@ -15,11 +15,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.spotify.sdk.android.player.Config;
+import com.spotify.sdk.android.player.Player;
+
 import pabloevd.tweetplay.R;
 import pabloevd.tweetplay.TweetIt;
 import pabloevd.tweetplay.fragments.QueueFragment;
 import pabloevd.tweetplay.fragments.SongFragment;
 import pabloevd.tweetplay.models.Song;
+import java.util.*;
 
 /** TODO
  * Now playing screen, this is gonna show the controls, and use fragments to display the album art,
@@ -43,6 +48,7 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tweetit = (TweetIt) getApplicationContext();
+
         //Try to connect to redis 5 times. Else exit
         int retryCount = 0;
         while(true) {

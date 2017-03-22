@@ -34,7 +34,7 @@ public class TweetIt extends Application {
     public static ArrayList<Song> prevPayed = new ArrayList<Song>();
 //    Jedis jedis = new Jedis("172.24.89.81", 6379);    //School
     //Jedis jedis = new Jedis("72.190.137.46", 6379); //Sitansh
-    Jedis jedis = new Jedis("192.168.0.15", 6379);  //Pablo
+    Jedis jedis = new Jedis("172.24.92.131", 6379);  //Pablo
 
 
 
@@ -88,7 +88,7 @@ public class TweetIt extends Application {
         for (String temp : currentQueue) {
             artist = jedis.hget(temp,"artist");
             song = jedis.hget(temp,"song");
-            listItem = "  " + song + " - " + artist;
+            listItem = song.toString();
             songlist.add(listItem);
         }
         currentQueue = songlist;
