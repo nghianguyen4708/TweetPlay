@@ -41,13 +41,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         tweetit = (TweetIt) getApplicationContext();
         //Call login activity if app was just opened.
-        if(signedIn == 0) {
+        if(TweetIt.signedIn == 0) {
+            System.out.println(TweetIt.signedIn + " FIRST");
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            startActivity(new Intent(MainActivity.this, AppIntroActivity.class));
+            System.out.println(TweetIt.signedIn + " LAST");
             finish();
         }
 
         setContentView(R.layout.activity_main);
-        String[] myItems = {"  TweetIt Session", "  Session 2", "  Session 3", "  Session 4"}; // Build Adapter
+        String[] myItems = {"   TweetIt Session"}; // Build Adapter
         ArrayAdapter<String> playListAdapter = new ArrayAdapter<String>(this, R.layout.the_playlist, myItems);
         ListView playlists = (ListView)findViewById(R.id.playLList);
         playlists.setAdapter(playListAdapter);
@@ -111,6 +114,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    @Override
+    protected void onResume()
+    {
+        if(NowPlayingActivity.musicState == 0) {
+            playButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.pause_black_000000_25));
+
+        }
+        else if(NowPlayingActivity.musicState == 1) {
+            playButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.play_000000_25));
+
+        }
+        else if(NowPlayingActivity.musicState == -1) {
+            playButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.play_000000_25));
+        }
+        super.onResume();
+    }
+
+
     private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
@@ -120,6 +141,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //do your job here, position is the item position in ListView
         }
     };
+
+
+    public void onBackPressed()
+    {
+        // code here to show dialog
+        super.onBackPressed();  // optional depending on your needs
+
+    }
 
 
 

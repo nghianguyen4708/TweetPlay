@@ -58,10 +58,10 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
             tweetit.jedisConnect();
             break;
             } catch (Exception e) {
-                if(retryCount > 5)
-                    throw new RuntimeException("Could not connect", e);
-                retryCount++;
-                continue;
+//                if(retryCount > 5)
+//                    throw new RuntimeException("Could not connect", e);
+//                retryCount++;
+//                continue;
             }
         }
 
@@ -74,6 +74,7 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
         nextButton = (ImageButton) findViewById(R.id.playNextButton);
         prevButton = (ImageButton) findViewById(R.id.playPrevButton);
         changeFragButton = (ImageButton) findViewById(R.id.repeatButton);
+        shuffleButton = (ImageButton) findViewById(R.id.shuffleButton);
         songLabel = (TextView) findViewById(R.id.songLabel);
         artistLabel = (TextView) findViewById(R.id.artistLabel);
 
@@ -173,7 +174,23 @@ public class NowPlayingActivity extends AppCompatActivity implements View.OnClic
                 }
             }
         });
+
+        shuffleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //If album art is displayed change to queue list
+                tweetit.shuffleQueue();
+                //If queue list is being shown, then show album art
+
+            }
+        });
+
+
+
+
     }
+
+
 
     //Logic to play song. This is called by most control buttons, and calls player.
     public void playSong(Song song){

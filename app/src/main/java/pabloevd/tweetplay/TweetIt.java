@@ -32,65 +32,82 @@ public class TweetIt extends Application {
     public static Song currentSong;
     public static List currentQueue;
     public static ArrayList<Song> prevPayed = new ArrayList<Song>();
-//    Jedis jedis = new Jedis("172.24.89.81", 6379);    //School
+    public static int connectionStatus = 0;
+    public static int signedIn = 0;
+    Jedis jedis = new Jedis("172.24.89.129", 6379);    //School
     //Jedis jedis = new Jedis("72.190.137.46", 6379); //Sitansh
-    Jedis jedis = new Jedis("172.24.92.131", 6379);  //Pablo
+//    Jedis jedis = new Jedis("192.168.0.11", 6379);  //Pablo
 
 
 
     //Connect redis instance
     public void jedisConnect(){
-        //Override thread policy for jedis to run
-        int SDK_INT = android.os.Build.VERSION.SDK_INT;
-        if (SDK_INT > 8)
-        {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                    .permitAll().build();
-            StrictMode.setThreadPolicy(policy);
+        try {
+            //Override thread policy for jedis to run
+            int SDK_INT = android.os.Build.VERSION.SDK_INT;
+            if (SDK_INT > 8) {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                        .permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+            //Should use pooling later on
+            //Connect
+            jedis.connect();
+            connectionStatus = 1;
+        }catch (Exception e){
+
         }
-        //Should use pooling later on
-        //Connect
-        jedis.connect();
 
     }
 
     //Get next Song object from redis database. Currently based on 'queue' key
     public Song jedisNext() {
-        try{
-            key = jedis.lpop("queue");
-            artist = jedis.hget(key,"artist");
-            song = jedis.hget(key,"song");
-            duration = jedis.hget(key,"duration");
-            uri = jedis.hget(key,"uri");
-            Song songObj = new Song();
-            songObj.setArtist(artist);
-            songObj.setId(uri);
-            songObj.setTitle(song);
-            songObj.setDuration(duration);
-            prevPayed.add(songObj);
-            previousListLength = prevPayed.size();
-            return songObj;
+        if(connectionStatus == 1) {
+            try {
+                key = jedis.lpop("queue");
+                artist = jedis.hget(key, "artist");
+                song = jedis.hget(key, "song");
+                duration = jedis.hget(key, "duration");
+                uri = jedis.hget(key, "uri");
+                Song songObj = new Song();
+                songObj.setArtist(artist);
+                songObj.setId(uri);
+                songObj.setTitle(song);
+                songObj.setDuration(duration);
+                prevPayed.add(songObj);
+                previousListLength = prevPayed.size();
+                return songObj;
+            } catch (Exception e) {
+                System.out.println("Queue is empty");
+                return null;
+            }
         }
-        catch (Exception e){
-            System.out.println("Queue is empty");
-            return null;
-        }
+        return  null;
     }
 
     //Returns a list of the queued songs in format "SongName ArtistName"
     public List<String> queueList(){
+        if(connectionStatus == 1) {
+            List<String> currentQueue = jedis.lrange("queue", 0, -1);
+            String listItem;
+            List<String> songlist = new ArrayList<>();
 
-        List<String> currentQueue = jedis.lrange("queue", 0,-1);
-        String listItem;
-        List<String> songlist = new ArrayList<>();
-
-        for (String temp : currentQueue) {
-            artist = jedis.hget(temp,"artist");
-            song = jedis.hget(temp,"song");
-            listItem = "" + song + " - " + artist;
-            songlist.add(listItem);
+            for (String temp : currentQueue) {
+                artist = jedis.hget(temp, "artist");
+                song = jedis.hget(temp, "song");
+                listItem = "" + song + " - " + artist;
+                songlist.add(listItem);
+            }
+            currentQueue = songlist;
+            return songlist;
         }
-        currentQueue = songlist;
-        return songlist;
+        return null;
+    }
+
+    public void shuffleQueue(){
+        if(connectionStatus == 1) {
+            String key = "queue";
+            System.out.println(jedis.sort(key, new SortingParams().alpha()));
+        }
     }
 }

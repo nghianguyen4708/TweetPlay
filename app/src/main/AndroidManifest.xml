@@ -35,6 +35,8 @@
         <activity android:name=".activities.LoginActivity"></activity>
         <activity android:name=".activities.NowPlayingActivity"></activity>
         <activity android:name=".activities.PlayListActivity"></activity>
+        <activity android:name=".activities.AppIntroActivity"></activity>
+
 
 
     </application>

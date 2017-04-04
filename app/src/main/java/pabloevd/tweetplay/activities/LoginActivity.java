@@ -7,10 +7,13 @@ package pabloevd.tweetplay.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -43,6 +46,7 @@ public class LoginActivity extends Activity implements
     private static final String CLIENT_ID = "42e4cf334d044ee3b93e7dcf12a83b3f";
     private static final String REDIRECT_URI = "http://localhost:8888/callback";
     private Button sLoginButton;
+    private ImageView spotifyLogo;
     private static final int REQUEST_CODE = 1337;
     private Player mPlayer;
     private GoogleApiClient client;
@@ -50,9 +54,14 @@ public class LoginActivity extends Activity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TweetIt.signedIn = 1;
         tweetit = (TweetIt) getApplicationContext();
         setContentView(R.layout.login_spotify);
-        sLoginButton = (Button) findViewById(R.id.sLoginButton);
+        spotifyLogo = (ImageView)findViewById(R.id.imageView2);
+        spotifyLogo.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),
+                R.drawable.spotify_logo_rgb_black));
+
+        //sLoginButton = (Button) findViewById(R.id.sLoginButton);
 //        if(sLoginButton.hasOnClickListeners()) {
             AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID,
                     AuthenticationResponse.Type.TOKEN,
@@ -135,11 +144,8 @@ public class LoginActivity extends Activity implements
     @Override
     public void onLoggedIn() {
         Log.d("MainActivity", "User logged in");
-        MainActivity.signedIn = 1;
-        //mPlayer.playUri(null, "spotify:track:3bnVBN67NBEzedqQuWrpP4", 0, 0);
-       // mPlayer.queue(null, "spotify:track:72Y5nO5FCZtq0w7T5JGbys");
-       // mPlayer.queue(null,"spotify:track:6i0V12jOa3mr6uu4WYhUBr");
-
+        TweetIt.signedIn = 1;
+        System.out.println(TweetIt.signedIn + "IN CLASS");
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
     }
 
@@ -197,6 +203,12 @@ public class LoginActivity extends Activity implements
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
     }
 
 
