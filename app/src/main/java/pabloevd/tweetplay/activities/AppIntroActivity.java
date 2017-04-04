@@ -26,6 +26,8 @@ public class AppIntroActivity extends AppIntro {
         addSlide(AppIntroFragment.newInstance("Start playing music"
                 , "To begin playing music just press play, or tap on the album art to display the now playing screen"
                 , R.drawable.now_playing_bar , Color.parseColor("#3F51B5")));
+        addSlide(AppIntroFragment.newInstance("Control", "Use controls to manipulate media playback", R.drawable.controls , Color.parseColor("#2196F3")));
+
         addSlide(AppIntroFragment.newInstance("Show Queue", "Tap on the bottom left icon to navigate between queue and album art", R.drawable.queue_tut , Color.parseColor("#2196F3")));
         setFadeAnimation();
 //        setZoomAnimation();
